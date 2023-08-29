@@ -26,15 +26,7 @@ E_{AC}(\Delta u) &\approx \sum_i w(x_i)[I(x_i) + \nabla I(x_i) \cdot \Delta u - 
                                     \Delta x & \Delta y
                                   \end{array}\right)
                                   
-                                  \left(\begin{array}{cc} 
-                                    I_x(x_i) & I_xI_y(x_i)\\
-                                    I_xI_y(x_i) & I_y(x_i)
-                                  \end{array}\right)
-
-                                  \left(\begin{array}{cc} 
-                                    \Delta x\\
-                                    \Delta y
-                                  \end{array}\right)\\
+                        
 
                  &= \sum_i w(x_i)\Delta u^T A \Delta u
 \end{split}
