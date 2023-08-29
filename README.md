@@ -33,8 +33,7 @@ directions.
 If the patch contains an edge, $E_{AC}(\delta u)$ be large in one direction.
 If the patch is flat $E_{AC}(\delta u)$ will be small.
 
-Using the first order Taylor expansion, we have $I(x_i + \Delta u) \approx I(x_i) 
-+ \nabla I(x_i) \cdot \Delta u.$ Then the autocorrelation function can be approximated as
+Using the first order Taylor expansion, we have $I(x_i + \Delta u) \approx I(x_i) + \nabla I(x_i)\cdot \Delta u.$ Then the autocorrelation function can be approximated as
 
 $$
 \begin{equation}
