@@ -26,16 +26,17 @@ E_{AC}(\Delta u) &\approx \sum_i w(x_i)[I(x_i) + \nabla I(x_i) \cdot \Delta u - 
                                 \begin{matrix} 
                                 a & b \\ 
                                 \end{matrix} 
-                                \right) \left(
+                                \right) 
+                                \left(
                                 \begin{matrix} 
                                 a & b \\ 
-                                c & d 
                                 \end{matrix} 
+                                \right)
+                                \left(
                                 \begin{matrix} 
-                                a \\ 
-                                c
+                                a & b \\ 
                                 \end{matrix} 
-                                \right)\\
+                                \right)
                  &= \sum_i w(x_i)\Delta u^T A \Delta u
 \end{split}
 \end{equation}
