@@ -1,15 +1,18 @@
-import keypoint_detect as keypoint_detect
-import cv2
 import numpy as np
+import cv2
 import matplotlib.pyplot as plt 
 from PIL import Image
+
 import keypoint_descriptor
-from utils import plot_interest_points
+import keypoint_match 
+import utils
+import keypoint_detect
 
 im_list = ["../data/notredame1.jpg", "../data/notredame2.jpg"]
+features_list = []
+x_list = []
+y_list = []
 
-
-cv2.startWindowThread()
 for i, im_p in enumerate(im_list):
     im = np.array(Image.open(im_p), dtype=np.float32)
     im = cv2.resize(im, (im.shape[1]//2, im.shape[0]//2))
@@ -17,15 +20,25 @@ for i, im_p in enumerate(im_list):
     im_gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
     x, y, c = keypoint_detect.get_harris_corners(im_gray)
 
-    print("num interest points:", im_p, len(x))
+    x_list.append(x)
+    y_list.append(y)
+
+    print("Num interest points:", im_p, len(x))
     
-    cv2.imshow(im_p, plot_interest_points(im_p, x, y))
+    descriptor = keypoint_descriptor.get_SIFT_descriptors(im_gray, x, y)
+    features_list.append(descriptor)
 
-    descriptor = keypoint_descriptor.get_SIFT_descriptors(im_gray, x[:100], y[:100])
-    cv2.imshow("descriptor" + str(i), descriptor)
+matches, confidences = keypoint_match.match_features_ratio_test(features_list[0], features_list[1])
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+print("Num matches", len(matches))
+
+im1 = np.array(Image.open(im_list[0]), dtype=np.float32)
+im1 = cv2.resize(im1, (im1.shape[1]//2, im1.shape[0]//2))
+im2 = np.array(Image.open(im_list[1]), dtype=np.float32)
+im2 = cv2.resize(im2, (im2.shape[1]//2, im2.shape[0]//2))
+
+plt.imshow(utils.plot_matches(im1, im2, x_list[0], y_list[0], x_list[1], y_list[1], matches).astype(np.uint8))
+plt.show()
 
 
 

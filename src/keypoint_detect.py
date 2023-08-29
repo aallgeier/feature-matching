@@ -176,7 +176,7 @@ def top_k_interest_points(R, k, ksize):
 
 def remove_border_harris_points(img, x, y, c):
     """
-    Remove interest points which are too close to the boarder.
+    Remove interest points which are too close to the border.
     """
 
     h, w = img.shape
@@ -193,13 +193,14 @@ def get_harris_corners(img_gray, k=2500):
     Args:
         img_gray: black and white image
         k: number of interest points we will find at most 
-    
     """
 
     ksize = 7
     alpha = 0.06
 
     Ix, Iy = compute_image_gradients(img_gray)
+
+    # score map
     R = compute_approx_auto_correlation(Ix, Iy, alpha, sigma=10)
 
     x, y, c = top_k_interest_points(R, k, ksize)
