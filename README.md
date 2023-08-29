@@ -5,7 +5,7 @@ Image feature matching
 Hard coded the Harris corner detector, Root-SIFT descriptor, and matched 
 features using the nearest neighbor distance ratio. 
 
-<img src="readme_imgs/image_matching.png" width="250"/>
+<img src="readme_imgs/image_matching.png" width="400"/>
 
 ## How to run
 In the command line, run 
@@ -16,8 +16,6 @@ and you will get the matched features of two Notre Dame images.
 
 
 ### 1. Find key points using the Harris corner detector. <br>
-<img src="readme_imgs/harris_corner.png" width="250"/>
-
 The auto correlation function tells us how much the pixel value changes at each 
 location in a patch when we slightly shift it. It is accompanied by a window
 function that is often Gaussian which gives more weight to pixels closer to the
@@ -81,16 +79,17 @@ Analyzing the eigenvalues of $A$ can tell us about the variance in the change in
 pixel values along the eigenvectors.  If the variance is large in two distinct 
 directions, we can assume that the patch contains a "corner".
 
+<img src="readme_imgs/harris_corner.png" width="250"/>
+
 ### 2. Root-SIFT keypoint-descriptor
-<img src="readme_imgs/gradient_histogram.png" width="250"/>
-
-
 Once we find the keypoints using the Harris corner detecter, we will create
 discriptors based on its local features. 
 
 Given a keypoint, extract a 16 x 16 patch centered at this keypoint. We then divide this 16 x 16 patch into four 4 x 4 sub-patches. For eatch of these 4 x 4 sub-patches, we look at the magnitude and the orientation of the image gradients ($I_x, I_y$) of the points in the sub-patch. We create a histogram of the orientations with 8 bins (-pi to pi divided by 8 intervals) while weighing the histogram counts with the gradient magnitudes. We then flatten this vector, take its square root (Root-SIFT) and normalize it. 
 
 We match the keypoints in the two images based on the similarity of the descripters. The similarity is measured by Euclidean distance and a match is determined by the ratio ($\frac{d1}{d2}$) between the closest feature($d1$) and the second closest feature($d2$). If the ratio is close to 1, we cannot be sure whether the closest or second closest is the true match. It is up to us to set this threshold. 
+
+<img src="readme_imgs/gradient_histogram.png" width="250"/>
 
 
 
