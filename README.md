@@ -5,7 +5,7 @@ Image feature matching
 Hard coded the Harris corner detector, Root-SIFT descriptor, and matched 
 features using the nearest neighbor distance ratio. 
 
-<img src="readme_imgs/image_matching.png" width="400"/>
+<img src="readme_imgs/image_matching.png" width="500"/>
 
 ## How to run
 In the command line, run 
@@ -14,7 +14,7 @@ python run.py
 ```
 and you will get the matched features of two Notre Dame images. 
 
-
+## Steps
 ### 1. Find key points using the Harris corner detector. <br>
 The auto correlation function tells us how much the pixel value changes at each 
 location in a patch when we slightly shift it. It is accompanied by a window
