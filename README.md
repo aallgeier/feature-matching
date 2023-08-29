@@ -44,7 +44,14 @@ E_{AC}(\Delta u) &\approx \sum_i w(x_i)[I(x_i) + \nabla I(x_i) \cdot \Delta u - 
                                 w(x_i)I_x(x_i) & w(x_i)I_xI_y(x_i) \\
                                 w(x_i)I_xI_y(x_i) & w(x_i)I_y(x_i) 
                                 \end{matrix} 
-                                \right)  \Delta u
+                                \right)  \Delta u\\
+                &=  \Delta u^T \left(
+                                \begin{matrix} 
+                                \sum_i w(x_i)I_x(x_i) & \sum_i w(x_i)I_xI_y(x_i) \\
+                                \sum_i w(x_i)I_xI_y(x_i) & \sum_i w(x_i)I_y(x_i) 
+                                \end{matrix} 
+                                \right)  \Delta u\\
+                
                  &= \sum_i w(x_i)\Delta u^T A \Delta u
 \end{split}
 \end{equation}
