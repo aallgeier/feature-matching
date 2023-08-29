@@ -1,5 +1,5 @@
 import numpy as np
-from src.keypoint_detect import compute_image_gradients
+from keypoint_detect import compute_image_gradients
 
 """
 The descriptor is based on the local image descriptor of SIFT
@@ -70,7 +70,7 @@ def get_histogram(
             cell_orientations = window_orientations[i*l:(i+1)*l, j*l:(j+1)*l].flatten()
 
             # For this 4x4 window, create a histogram of orientations weighted by magnitudes.
-            bins = np.linspace(-np.pi, np.pi, num_bins+2)
+            bins = np.linspace(-np.pi, np.pi, num_bins+1)
             histogram = np.histogram(np.around(cell_orientations, decimals=5), bins, weights= cell_magnitutdes)[0]
             
             weighted_histograms[k] = histogram
@@ -142,15 +142,11 @@ def get_SIFT_descriptors(
         image: A numpy array of shape (m,n), the image
         X: A numpy array of shape (k,), the x-coordinates of interest points
         Y: A numpy array of shape (k,), the y-coordinates of interest points
-        feature_width: integer representing the local feature width in pixels.
-            You can assume that feature_width will be a multiple of 4 (i.e.,
-            every cell of your local SIFT-like feature will have an integer
-            width and height). This is the initial window size we examine
-            around each keypoint.
+        patch_size: integer representing the local feature width in pixels.
+            
     Returns:
         fvs: A numpy array of shape (k, feat_dim) representing all feature
-            vectors. "feat_dim" is the feature_dimensionality (e.g., 128 for
-            standard SIFT). These are the computed features.
+            vectors.
     """
     assert image_bw.ndim == 2, 'Image must be grayscale'
 
