@@ -3,12 +3,12 @@ import cv2
 import matplotlib.pyplot as plt 
 from PIL import Image
 
-import keypoint_descriptor
-import keypoint_match 
-import utils
-import keypoint_detect
+import src.keypoint_descriptor as keypoint_descriptor 
+import src.keypoint_match as keypoint_match
+import src.utils as utils
+import src.keypoint_detect as keypoint_detect
 
-im_list = ["../data/notredame1.jpg", "../data/notredame2.jpg"]
+im_list = ["data/notredame1.jpg", "data/notredame2.jpg"]
 features_list = []
 x_list = []
 y_list = []

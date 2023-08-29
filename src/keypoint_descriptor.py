@@ -1,5 +1,5 @@
 import numpy as np
-from keypoint_detect import compute_image_gradients
+from src.keypoint_detect import compute_image_gradients
 
 """
 The descriptor is based on the local image descriptor of SIFT

@@ -1,6 +1,5 @@
 import cv2 
 import numpy as np
-import utils
 
 def plot_interest_points(im_path, x, y):
     """
@@ -47,7 +46,7 @@ def plot_matches(im1, im2, x1, y1, x2, y2, matches):
     matches: output from keypoint_match.match_features_ratio_test
     """
 
-    hstacked_img = utils.horizontal_stack_images(im1, im2)
+    hstacked_img = horizontal_stack_images(im1, im2)
     h1, w1, _ = im1.shape
 
     match_x1 = x1[matches[:, 0]]
