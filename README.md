@@ -22,10 +22,18 @@ $$
 E_{AC}(\Delta u) &\approx \sum_i w(x_i)[I(x_i) + \nabla I(x_i) \cdot \Delta u - I(x_i)]^2 \\
                  &= \sum_i w(x_i)[\nabla I(x_i) \cdot \Delta u]^2  \\
                  &= \sum_i w(x_i)(I_x^2(x_i)\Delta x^2 + 2 I_xI_y(x_i)\Delta x \Delta y + I_y^2(x_i)\Delta y^2)\\
-                 &= \sum_i w(x_i) \left(
+                 &= \sum_i w(x_i)\left(
+                                \begin{matrix} 
+                                a & b \\ 
+                                \end{matrix} 
+                                \right) \left(
                                 \begin{matrix} 
                                 a & b \\ 
                                 c & d 
+                                \end{matrix} 
+                                \begin{matrix} 
+                                a \\ 
+                                c
                                 \end{matrix} 
                                 \right)\\
                  &= \sum_i w(x_i)\Delta u^T A \Delta u
