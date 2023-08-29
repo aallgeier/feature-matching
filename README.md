@@ -60,8 +60,7 @@ where
 $$\begin{equation}
 A = \left(\begin{matrix} 
             \sum_i w(x_i)I_x(x_i) & \sum_i w(x_i)I_xI_y(x_i) \\
-            \sum_i w(x_i)I_xI_y(x_i) & \sum_i w(x_i)I_y(x_i) 
-          \end{matrix} \right)
+            \sum_i w(x_i)I_xI_y(x_i) & \sum_i w(x_i)I_y(x_i) \end{matrix} \right)
 \end{equation}$$
 is called the auto-correlation matrix. 
 
