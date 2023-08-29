@@ -1,7 +1,7 @@
 # feature-matching
 
 ### 1. Find key points using the Harris corner detector. <br>
-<img src="readme_imgs/harris_corner.png" width="200"/>
+<center><img src="readme_imgs/harris_corner.png" width="300"/></center>
 
 The auto correlation function tells us how much the pixel value changes at each 
 location in a patch when we slightly shift it. It is accompanied by a window
@@ -68,7 +68,7 @@ pixel values along the eigenvectors.  If the variance is large in two distinct
 directions, we can assume that the patch contains a "corner".
 
 ### 2. Root-SIFT keypoint-descriptor
-<img src="readme_imgs/gradient_histogram.png" width="200"/>
+<center><img src="readme_imgs/gradient_histogram.png" width="300"/></center>
 
 Once we find the keypoints using the Harris corner detecter, we will create
 discriptors based on its local features. 
