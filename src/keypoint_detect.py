@@ -3,19 +3,10 @@ import torch
 from torch import nn
 import matplotlib.pyplot as plt
 
-SOBEL_X_KERNEL = np.array(
-    [
-        [-1, 0, 1],
-        [-2, 0, 2],
-        [-1, 0, 1]
-    ]).astype(np.float32)
-
-SOBEL_Y_KERNEL = np.array(
-    [
-        [1, 2, 1],
-        [0, 0, 0],
-        [-1, -2, -1]
-    ]).astype(np.float32)
+"""
+Find the keypoint candidates using the Harris Corner detector.
+Note that unlike SIFT this process may not be scale invariant.
+"""
 
 def compute_gauss_2d(ksize, sigma):
     """
@@ -49,6 +40,20 @@ def compute_image_gradients(img_gray):
         Iy: Array of shape (M,N) representing partial derivative of image
             w.r.t. y-direction
     """
+    SOBEL_X_KERNEL = np.array(
+    [
+        [-1, 0, 1],
+        [-2, 0, 2],
+        [-1, 0, 1]
+    ]).astype(np.float32)
+
+    SOBEL_Y_KERNEL = np.array(
+    [
+        [1, 2, 1],
+        [0, 0, 0],
+        [-1, -2, -1]
+    ]).astype(np.float32)
+    
     # Paddings to keep image dimensions
     px = (len(SOBEL_X_KERNEL)-1) //2
     py = (len(SOBEL_Y_KERNEL)-1) //2
@@ -67,7 +72,7 @@ def compute_image_gradients(img_gray):
 
     return Ix, Iy
 
-def compute_approx_auto_correlation(Ix, Iy, alpha, patch_size=7, sigma=5):
+def compute_approx_auto_correlation(Ix, Iy, alpha, patch_size=7, sigma=10):
     """
     Compute Ix, Iy, IxIy in Szeliski (eq 7.8)
     and convolve with a window function weighting the pixel values
@@ -195,7 +200,7 @@ def get_harris_corners(img_gray, k=2500):
     alpha = 0.06
 
     Ix, Iy = compute_image_gradients(img_gray)
-    R = compute_approx_auto_correlation(Ix, Iy, alpha)
+    R = compute_approx_auto_correlation(Ix, Iy, alpha, sigma=10)
 
     x, y, c = top_k_interest_points(R, k, ksize)
     x, y, c = remove_border_harris_points(img_gray, x, y, c)
