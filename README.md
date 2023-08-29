@@ -54,12 +54,17 @@ E_{AC}(\Delta u) &\approx \sum_i w(x_i)[I(x_i) + \nabla I(x_i) \cdot \Delta u - 
                  &= \Delta u^T A \Delta u
 \end{split}
 \end{equation}
-where $$A = \left(
+$$
+
+where 
+$$
+A = \left(
                     \begin{matrix} 
                     \sum_i w(x_i)I_x(x_i) & \sum_i w(x_i)I_xI_y(x_i) \\
                     \sum_i w(x_i)I_xI_y(x_i) & \sum_i w(x_i)I_y(x_i) 
                     \end{matrix} 
                     \right)
-$$ is called the auto-correlation matrix. 
+$$ 
+is called the auto-correlation matrix. 
 
 
