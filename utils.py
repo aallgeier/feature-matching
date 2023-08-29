@@ -18,7 +18,4 @@ def plot_interest_points(im_path, x, y):
         color = np.random.rand(3) * 255
         image = cv2.circle(image, [x[i], y[i]], 5, color, -1)
 
-    cv2.startWindowThread()
-    cv2.imshow("image", (image).astype(np.uint8))
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    return image.astype(np.uint8)
