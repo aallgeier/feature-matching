@@ -56,6 +56,8 @@ E_{AC}(\Delta u) &\approx \sum_i w(x_i)[I(x_i) + \nabla I(x_i) \cdot \Delta u - 
 \end{equation}
 $$
 
-where $A$ is called the auto-correlation matrix. 
+where $A$ is called the auto-correlation matrix. Analyzing the eigen values of $A$ can tell us about the patterns we can observe in the patch, and this is the basis of the Harris corner detector. 
+
+
 
 
