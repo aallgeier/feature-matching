@@ -1,5 +1,5 @@
 import numpy as np
-from src.vision.part1_harris_corner import compute_image_gradients
+from src.keypoint_detect import compute_image_gradients
 
 """
 The descriptor is based on the local image descriptor of SIFT
@@ -31,7 +31,7 @@ def get_magnitudes_and_orientations(Ix, Iy):
 
     return magnitudes, orientations
 
-def get_gradient_histogram_vec_from_patch(
+def get_histogram(
     window_magnitudes,
     window_orientations,
     patch_size: int = 16,
@@ -57,7 +57,7 @@ def get_gradient_histogram_vec_from_patch(
             neighborhoods of size 4x4 px
     """
 
-    wgh = np.zeros((size_grouped_cells**2, num_bins))
+    weighted_histograms = np.zeros((size_grouped_cells**2, num_bins))
 
     l = patch_size//size_grouped_cells
     
@@ -73,17 +73,64 @@ def get_gradient_histogram_vec_from_patch(
             bins = np.linspace(-np.pi, np.pi, num_bins+2)
             histogram = np.histogram(np.around(cell_orientations, decimals=5), bins, weights= cell_magnitutdes)[0]
             
-            wgh[k] = histogram
+            weighted_histograms[k] = histogram
             k+=1
 
-    return np.reshape(wgh, ((size_grouped_cells**2) * num_bins, 1))
+    return np.reshape(weighted_histograms, ((size_grouped_cells**2) * num_bins, 1))
+
+def get_feat_vec(
+    c: float,
+    r: float,
+    magnitudes,
+    orientations,
+    patch_size: int = 16,
+    num_local_cells: int = 4,
+    num_bins: int = 8
+) -> np.ndarray:
+    """
+    This function returns the feature vector for a specific interest point.
+
+    (1) Each feature is normalized to unit length.
+    (2) Each feature is raised to the 1/2 power, i.e. square-root SIFT
+        (read https://www.robots.ox.ac.uk/~vgg/publications/2012/Arandjelovic12/arandjelovic12.pdf)
+    
+    Args:
+        c: a float, the column (x-coordinate) of the interest point
+        r: A float, the row (y-coordinate) of the interest point
+        magnitudes: A numpy array of shape (m,n), representing image gradients
+            at each pixel location
+        orientations: A numpy array of shape (m,n), representing gradient
+            orientations at each pixel location
+        feature_width: size of patch (i.e. 16)
+    Returns:
+        fv: A numpy array of shape (feat_dim,1) representing a feature vector.
+    """
+
+    # Variables to record the coordinates of the top-left corner of the window.
+    w_top_left_c = c - (patch_size//2 - 1)
+    w_top_left_r = r - (patch_size//2 - 1)
+
+    # Get window magnitudes and orientations.
+    window_magnitudes = magnitudes[w_top_left_r: w_top_left_r + patch_size, w_top_left_c:w_top_left_c + patch_size]
+    window_orientations = orientations[w_top_left_r: w_top_left_r + patch_size, w_top_left_c:w_top_left_c + patch_size]
+
+    # get patch feature vector
+    fv = get_histogram(window_magnitudes, window_orientations, patch_size, num_local_cells, num_bins)
+
+    # Take squareroot of feature vector -> normalize
+    sqrt_fv = np.sqrt(fv)
+    norm_fv = sqrt_fv/np.linalg.norm(sqrt_fv)
+
+    fv = np.reshape(norm_fv, (num_local_cells**2 * num_bins, 1))
+    
+    return fv
 
 def get_SIFT_descriptors(
     image_bw: np.ndarray,
     X: np.ndarray,
     Y: np.ndarray,
-    feature_width: int = 16,
-    num_local_cells: int = 4,
+    patch_size: int = 16,
+    size_grouped_cells: int = 4,
     num_bins: int = 8
 ) -> np.ndarray:
     """
@@ -107,10 +154,7 @@ def get_SIFT_descriptors(
     """
     assert image_bw.ndim == 2, 'Image must be grayscale'
 
-    ###########################################################################
-    # TODO: YOUR CODE HERE                                                    #
-    ###########################################################################
-    feat_dim = (num_local_cells**2) * num_bins
+    feat_dim = (size_grouped_cells**2) * num_bins
     fvs = np.zeros((len(X), feat_dim))
 
     Ix, Iy = compute_image_gradients(image_bw)
@@ -119,8 +163,6 @@ def get_SIFT_descriptors(
     for i in range(len(X)):
         c = X[i]
         r = Y[i]
-        fvs[i] = np.squeeze(get_feat_vec(c, r, magnitudes, orientations, feature_width, num_local_cells, num_bins), axis=1)
-    ###########################################################################
-    #                             END OF YOUR CODE                            #
-    ###########################################################################
+        fvs[i] = np.squeeze(get_feat_vec(c, r, magnitudes, orientations, patch_size, size_grouped_cells, num_bins), axis=1)
+
     return fvs

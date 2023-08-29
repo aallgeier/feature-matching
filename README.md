@@ -56,7 +56,11 @@ E_{AC}(\Delta u) &\approx \sum_i w(x_i)[I(x_i) + \nabla I(x_i) \cdot \Delta u - 
 \end{equation}
 $$
 
-where $A$ is called the auto-correlation matrix. Analyzing the eigenvalues of $A$ can tell us about the variance in the change in pixel values along the eigenvectors.  If the variance is large in two distinct directions, we can assume that the patch contains a "corner".
+where $A$ is called the auto-correlation matrix. 
+
+Analyzing the eigenvalues of $A$ can tell us about the variance in the change in pixel values along the eigenvectors.  If the variance is large in two distinct directions, we can assume that the patch contains a "corner".
+
+### SIFT keypoint-descriptor
 
 
 
